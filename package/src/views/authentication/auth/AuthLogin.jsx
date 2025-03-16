@@ -128,5 +128,5 @@ const AuthLogin = ({ title }) => {
     </Box>
   );
 };
-
+ 
 export default AuthLogin;

@@ -81,7 +81,6 @@ const Properties = () => {
     setDetailOpen(false);
     setSelectedProperty(null);
   };
-
   const handlePropertyTypeChange = (e) => {
     setPropertyType(e.target.value);
     setStep(2);

@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Stack, Alert } from '@mui/material';
+import axios from 'axios';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 
 const AdminOnlyRegister = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      alert('Passwords do not match');
       return;
     }
 
-    // Placeholder for admin registration logic
-    setSuccess(`User ${username} has been successfully registered.`);
-    setError('');
-    setUsername('');
-    setPassword('');
-    setConfirmPassword('');
+    try {
+      const response = await axios.post('http://localhost:3000/api/users/register', {
+        username,
+        password,
+      });
+      alert(response.data.message);
+    } catch (error) {
+      alert('Error registering user');
+    }
   };
 
   return (
     <Box>
-      <Typography fontWeight="700" variant="h4" mb={2}>Register New User</Typography>
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-      <Stack spacing={3}>
+      <Stack spacing={2}>
         <Box>
           <Typography variant="subtitle1" fontWeight={600} mb="5px">Username</Typography>
           <CustomTextField 
@@ -50,7 +49,7 @@ const AdminOnlyRegister = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
-        <Box>
+        <Box> 
           <Typography variant="subtitle1" fontWeight={600} mb="5px">Confirm Password</Typography>
           <CustomTextField 
             id="register-confirm-password" 
